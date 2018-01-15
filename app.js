@@ -5,12 +5,26 @@ var fs = require('fs');
 var app= express();
 
 app.get('/', Introduction);
-
+var count =1;
 function Introduction(req, res){
   res.sendFile(__dirname + '/intro.html');
-  res.end();
+  console.log('User requested File transfer' + count);
+  count++;
+
 
 }
+// server creation Below
+
+var server = app.listen(8000, '0.0.0.0', function(err){
+  if(err) throw err;
+  else {
+    console.log('Server listening at port : ' + server.address().port);
+    console.log('Server listening at address : '+ server.address().address);
+  }
+})
+
+
+
 /*var db = sql.createConnection({
   host: "localhost",
   user: "root",
@@ -46,7 +60,7 @@ db.connect(function(err){
   }
 });
 */
-app.get('/asking', function(req, res){
+app.get('/values', function(req, res){
   res.sendFile(__dirname + "/input_val.html");
 
 })
@@ -55,17 +69,24 @@ app.get('/receive_form', function(req, res){
   data= req.query.code ;
   console.log('Got the source as \n:' + data);
 });
+app.get('/result', function(req, res){
+  res.render(__dirname + '/output.ejs', {
+    a: new_file
+  });
+  console.log('Runing Ejs file on browser parsing from Server');
+});
 
 // processing starts from Below
  // python code below to be optimized for [python]
 var ch= "";
 var val= "";
-/* '''
+/*
        alpha is an array used for the storing of random values for alphabets
        in form of a secret code
-       '''
+
        # where it is declared from 1 to 26 as reserved for the alphabets
-       #  after which it can be used for teh storing for numeric codes*/
+       #  after which it can be used for teh storing for numeric codes
+*/
 
 var al = [];
 function code_allocation2(){
@@ -126,72 +147,20 @@ function dic_assign(){
            });
          }
 }
-var new_file = "";
+var new_file = ""; // contains the encrypted code
 var new_ch = "";
 
-  /* '''def open_file(self):
-       # self.name = input("Enter the name of the file you want to encrypt ")
-       self.name = self.name + ".txt"
-       file = open(self.name, 'r')
-       text = file.read()
-       length = len(text)
-       for i in range(length):
-           ch = text[i]
+function open_file(){
+  var code1 = data;
 
-           for j,k in dic.items():
+  for(var i=0;i< data.length; i++){
+    var ch = data.charAt(i);
+    for(var j=0;j< dic.length; j++){
+      if(ch == dic[i].key){
+        new_file = new_file + dic[i].value;
+        break;
+      }
+    }
+  }
 
-               if ch == j :
-                   self.new_file = self.new_file + k + " "
-                   break
-       self.name_new = str(self.r) + "__encrypted_doc_" + self.name
-       file_write = open(self.name_new, 'w')
-       file_write.write(self.new_file + "\n")
-       file_write.close()
-   '''*/
-  /*
-class Continued(Encryption): #binary form conersion ,, not necessary
-
-   digit =0
-   ascii = 0
-   def convert(self, ascii):
-
-       num=0
-       d=0
-       c=0
-       temp = ascii
-       while temp != 0:
-           d = temp % 2
-           num +=  d*(10**c)
-           c +=1
-           temp = temp // 2 # use double slash for int division
-
-       return num
-
-   def ascii_conversion(self):
-       ran2 = random.randrange(1,1000)
-       ran2_str= str(ran2)
-
-       binary = open(str(self.r)+"_binary_"+".txt" , 'w')
-
-       text = self.new_file
-
-       binary_string=""
-       for i in text :
-           ascii = ord(i)
-           got = self.convert(ascii)
-           binary_string = str(got)
-           # sizing to the correct 8 length
-
-           # calculating the length of the num
-           temp2 = binary_string
-           d=0
-           len_binary = len(temp2)
-           if len_binary != 16 :
-               d = 16 - len_binary
-               for i in range(d):
-                   binary_string = "0" + binary_string
-           print(binary_string)
-
-           binary.write(binary_string)
-       print("Operation Successfull")
-      */
+}
