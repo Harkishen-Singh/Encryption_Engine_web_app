@@ -68,6 +68,7 @@ var data="";
 app.get('/receive_form', function(req, res){
   data= req.query.code ;
   console.log('Got the source as \n:' + data);
+  code_allocation2();
 });
 app.get('/result', function(req, res){
   res.render(__dirname + '/output.ejs', {
@@ -87,7 +88,7 @@ var val= "";
        # where it is declared from 1 to 26 as reserved for the alphabets
        #  after which it can be used for teh storing for numeric codes
 */
-
+var alpha = new Array(3000- 33);
 var al = [];
 function code_allocation2(){
        for(var i=33; i<3000; i++){
@@ -113,6 +114,8 @@ function code_allocation2(){
            ch="";
            val="";
          }
+         file_saving();
+
        }
    var r = Math.floor(Math.random * 1001);
 
@@ -129,13 +132,15 @@ function code_allocation2(){
        });
        for(var i=0; i< alpha.length; i++)
            fs.appendFile(wr, alpha[i] + "\n", function(err){
-             if(err) console.log("Error Occured while appending the file created earlier");
+             if(err) console.log("Error Occured while appending the file created earlier"); // creating the encrypted key
            });
+           dic_alpha_assign();
 
 }
   function dic_alpha_assign(){
        for(var i=33;i<3000;i++)
           al[i] = String.fromCharCode(i);
+      dic_assign();
 }
 var dic= [];
 
@@ -146,6 +151,7 @@ function dic_assign(){
              value: alpha[i]
            });
          }
+         open_file();
 }
 var new_file = ""; // contains the encrypted code
 var new_ch = "";
@@ -162,5 +168,6 @@ function open_file(){
       }
     }
   }
+  console.log('The Encrypted Code is below :\n\n' + new_file);
 
 }
