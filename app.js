@@ -11,11 +11,11 @@ function Introduction(req, res){
   res.end();
 
 }
-var db = sql.createConnection({
+/*var db = sql.createConnection({
   host: "localhost",
   user: "root",
   password: "hsinghbb"
-});
+});*/
 /*
 db.connect(function(err){
   if(err)
@@ -67,7 +67,7 @@ var val= "";
        # where it is declared from 1 to 26 as reserved for the alphabets
        #  after which it can be used for teh storing for numeric codes*/
 
-var al = new Array();
+var al = [];
 function code_allocation2(){
        for(var i=33; i<3000; i++){
            var a = new Array(4);
@@ -85,7 +85,7 @@ function code_allocation2(){
                var temp= Math.floor(Math.random * 10);
                b[j] = String(temp);
              }
-           for j in range(1,5)
+           for(var j=1; j<5; j++)
                val = val + b[j];
 
            alpha[i]= ch+val;
@@ -97,16 +97,15 @@ function code_allocation2(){
 
   function file_saving(){
        var x=Math.floor(Math.random * 1001);
-       wx=String(x);
+       var wx=String(x);
 
        wr= String(r) +"_encryptCode_"+wx+".txt"; //use this variable to get the file of encrypted code
        var fw= fs.open(wr, 'w', function(err){
-         if(err) throw err;
+         if(err) console.log('Error occured while creating a new file with name '+ wr);
          else {
            console.log('File Created with name ' + wr);
          }
        });
-       for i in range(0,len(alpha))
        for(var i=0; i< alpha.length; i++)
            fs.appendFile(wr, alpha[i] + "\n", function(err){
              if(err) console.log("Error Occured while appending the file created earlier");
@@ -120,8 +119,6 @@ function code_allocation2(){
 var dic= [];
 
 function dic_assign(){
-
-       for i in range(2967): # clever to check this..!!!!
        for(var i=0;i<2967;i++){
            dic.push({
              key: al[i],
