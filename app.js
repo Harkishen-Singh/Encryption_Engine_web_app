@@ -69,6 +69,7 @@ app.get('/receive_form', function(req, res){
   data= req.query.code ;
   console.log('Got the source as \n:' + data);
   code_allocation2();
+  res.end();
 });
 app.get('/result', function(req, res){
   res.render(__dirname + '/output.ejs', {
@@ -99,7 +100,7 @@ function code_allocation2(){
            {
              var temp = Math.floor(Math.random() * 61);
             a[j] = String.fromCharCode(65 + temp );
-            console.log(' a[j] at j '+j+' is '+a[j] );
+          //  console.log(' a[j] at j '+j+' is '+a[j] );
              }
            for(var j=1; j<5; j++)
                ch = ch + a[j];
@@ -107,13 +108,13 @@ function code_allocation2(){
            for(var j=1; j<5; j++){
                var temp= Math.floor(Math.random() * 10);
                b[j] = String(temp);
-               console.log(' b[j] at j '+j+' is '+b[j] );
+            //   console.log(' b[j] at j '+j+' is '+b[j] );
              }
            for(var j=1; j<5; j++)
                val = val + b[j];
 
            alpha[i-33]= ch+val;
-           console.log('Value of cal + val at count '+ i + ' is : ' + (ch+val));
+          // console.log('Value of cal + val at count '+ i + ' is : ' + (ch+val));
            ch="";
            val="";
          }
@@ -126,7 +127,7 @@ function code_allocation2(){
     var r = Math.floor(Math.random() * 1001);
        var x=Math.floor(Math.random() * 1001);
        var wx=String(x);
-       console.log("value of wx : " + wx);
+       //console.log("value of wx : " + wx);
        wr= wx +"_encryptCode_"+wx+".txt"; //use this variable to get the file of encrypted code
        var fw= fs.open(wr, 'w', function(err){
          if(err) console.log('Error occured while creating a new file with name '+ wr);
@@ -156,8 +157,6 @@ function dic_assign(){
              value: alpha[i]
            });
          }
-         for(var i =0; i< dic.length; i++)
-          console.log(i+'. '+ dic[i].key + '\t'+dic[i].value +" runing dic check");
          open_file();
 
 }
@@ -168,17 +167,17 @@ function open_file(){
   var code1 = data;
 
   for(var i=0;i< data.length; i++){
-    console.log('entered data loop last' + i);
     var ch = data.charAt(i);
-    console.log(' Value of ch ' + ch);
     for(var j=0;j< dic.length; j++){
       if(ch == dic[j].key){
-        console.log('entered matched value ');
-        new_file = new_file + dic[i].value;
+        new_file = new_file + dic[j].value;
+        console.log('dic['+i+'] key :' + dic[j].key);
+        console.log('dic['+i+'] value :' + dic[j].value);
         break;
       }
     }
   }
   console.log('The Encrypted Code is below :\n\n' + new_file);
+  new_file="";
 
 }
