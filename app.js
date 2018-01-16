@@ -21,7 +21,7 @@ var server = app.listen(8000, '0.0.0.0', function(err){
     console.log('Server listening at port : ' + server.address().port);
     console.log('Server listening at address : '+ server.address().address);
   }
-})
+});
 
 
 
@@ -63,7 +63,7 @@ db.connect(function(err){
 app.get('/values', function(req, res){
   res.sendFile(__dirname + "/input_val.html");
 
-})
+});
 var data="";
 app.get('/receive_form', function(req, res){
   data= req.query.code ;
@@ -97,33 +97,37 @@ function code_allocation2(){
            var ch="", val="";
            for(var j=1; j<5; j++)
            {
-             var temp = Math.floor(Math.random * 61);
+             var temp = Math.floor(Math.random() * 61);
             a[j] = String.fromCharCode(65 + temp );
+            console.log(' a[j] at j '+j+' is '+a[j] );
              }
            for(var j=1; j<5; j++)
                ch = ch + a[j];
 
            for(var j=1; j<5; j++){
-               var temp= Math.floor(Math.random * 10);
+               var temp= Math.floor(Math.random() * 10);
                b[j] = String(temp);
+               console.log(' b[j] at j '+j+' is '+b[j] );
              }
            for(var j=1; j<5; j++)
                val = val + b[j];
 
-           alpha[i]= ch+val;
+           alpha[i-33]= ch+val;
+           console.log('Value of cal + val at count '+ i + ' is : ' + (ch+val));
            ch="";
            val="";
          }
          file_saving();
 
        }
-   var r = Math.floor(Math.random * 1001);
+
 
   function file_saving(){
-       var x=Math.floor(Math.random * 1001);
+    var r = Math.floor(Math.random() * 1001);
+       var x=Math.floor(Math.random() * 1001);
        var wx=String(x);
-
-       wr= String(r) +"_encryptCode_"+wx+".txt"; //use this variable to get the file of encrypted code
+       console.log("value of wx : " + wx);
+       wr= wx +"_encryptCode_"+wx+".txt"; //use this variable to get the file of encrypted code
        var fw= fs.open(wr, 'w', function(err){
          if(err) console.log('Error occured while creating a new file with name '+ wr);
          else {
@@ -131,15 +135,16 @@ function code_allocation2(){
          }
        });
        for(var i=0; i< alpha.length; i++)
-           fs.appendFile(wr, alpha[i] + "\n", function(err){
+           fs.appendFile(wr,i + ". " +  alpha[i] + "\n", function(err){
              if(err) console.log("Error Occured while appending the file created earlier"); // creating the encrypted key
            });
            dic_alpha_assign();
 
+
 }
   function dic_alpha_assign(){
        for(var i=33;i<3000;i++)
-          al[i] = String.fromCharCode(i);
+          al[i-33] = String.fromCharCode(i);
       dic_assign();
 }
 var dic= [];
@@ -151,7 +156,10 @@ function dic_assign(){
              value: alpha[i]
            });
          }
+         for(var i =0; i< dic.length; i++)
+          console.log(i+'. '+ dic[i].key + '\t'+dic[i].value +" runing dic check");
          open_file();
+
 }
 var new_file = ""; // contains the encrypted code
 var new_ch = "";
@@ -160,9 +168,12 @@ function open_file(){
   var code1 = data;
 
   for(var i=0;i< data.length; i++){
+    console.log('entered data loop last' + i);
     var ch = data.charAt(i);
+    console.log(' Value of ch ' + ch);
     for(var j=0;j< dic.length; j++){
-      if(ch == dic[i].key){
+      if(ch == dic[j].key){
+        console.log('entered matched value ');
         new_file = new_file + dic[i].value;
         break;
       }
