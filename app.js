@@ -73,6 +73,10 @@ app.get('/receive_form', function(req, res){
   console.log('Got the source as \n:' + data);
   code_allocation2();
   res.render(__dirname +"/output.ejs", { uff: new_file});
+
+  /* sends the file to the user from the server */
+  var sending = fs.createReadStream(__dirname +"/" + name);
+  sending.pipe(res);
   //res.sendFile(__dirname + "/"+name); // bombarding files to teh user from the Server
 
   res.end();
