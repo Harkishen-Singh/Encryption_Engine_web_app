@@ -37,8 +37,8 @@ app.get('/receive_form', function(req, res){
   data= req.query.code ;
   user_name= req.query.user_name;
   user_emailId = req.query.emailId;
-  console.log(user_name +"\t"+user_emailId);
-  console.log('Got the source as \n:' + data);
+  //console.log(user_name +"\t"+user_emailId);
+  //console.log('Got the source as \n:' + data);
   code_allocation2();
   res.render(__dirname +"/output.ejs", { uff: new_file});
 
@@ -61,7 +61,7 @@ function Database_handling(){
     if(err)
       {console.log('Some error occured');}
     else {
-      console.log(user_name +"\t"+user_emailId);
+      //console.log(user_name +"\t"+user_emailId);
           var cmd = " insert into Records(name, emailId) values(\""+user_name+"\",\""+user_emailId+"\");";
           db.query(cmd, function(err){
             if(err){throw err;console.log('Error occured while Inserting into the Database');}
@@ -91,7 +91,7 @@ function output(req, res){
     uff: new_file
   });
   new_file="";
-  console.log('Runing Ejs file on browser parsing from Server');
+  //console.log('Runing Ejs file on browser parsing from Server');
 }
 
 // processing starts from Below
@@ -148,7 +148,7 @@ function code_allocation2(){
        var fw= fs.open(wr, 'w', function(err){
          if(err) console.log('Error occured while creating a new file with name '+ wr);
          else {
-           console.log('File Created with name ' + wr);
+           //console.log('File Created with name ' + wr);
          }
        });
        for(var i=0; i< alpha.length; i++)
