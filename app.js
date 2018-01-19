@@ -65,18 +65,26 @@ app.get('/values', function(req, res){
 
 });
 var data="";
+var new_file = ""; // contains the encrypted code
+
 app.get('/receive_form', function(req, res){
   data= req.query.code ;
   console.log('Got the source as \n:' + data);
   code_allocation2();
+  //setTimeout(output(req, res), 10000);
   res.end();
 });
-app.get('/result', function(req, res){
+app.get('/result', output);
+
+function output(req, res){
+  var rr = " this is working as direct copy paste";
   res.render(__dirname + '/output.ejs', {
-    a: new_file
+    uff: new_file,
+    mm: rr
   });
+  new_file="";
   console.log('Runing Ejs file on browser parsing from Server');
-});
+}
 
 // processing starts from Below
  // python code below to be optimized for [python]
@@ -160,7 +168,6 @@ function dic_assign(){
          open_file();
 
 }
-var new_file = ""; // contains the encrypted code
 var new_ch = "";
 
 function open_file(){
@@ -171,13 +178,13 @@ function open_file(){
     for(var j=0;j< dic.length; j++){
       if(ch == dic[j].key){
         new_file = new_file + dic[j].value;
-        console.log('dic['+i+'] key :' + dic[j].key);
-        console.log('dic['+i+'] value :' + dic[j].value);
+        //console.log('dic['+i+'] key :' + dic[j].key);
+        //console.log('dic['+i+'] value :' + dic[j].value);
         break;
       }
     }
   }
-  console.log('The Encrypted Code is below :\n\n' + new_file);
-  new_file="";
+  //console.log('The Encrypted Code is below :\n\n' + new_file);
+  //new_file="";
 
 }
