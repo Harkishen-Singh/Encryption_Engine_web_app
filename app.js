@@ -65,22 +65,25 @@ app.get('/values', function(req, res){
 
 });
 var data="";
+var name="";
 var new_file = ""; // contains the encrypted code
 
 app.get('/receive_form', function(req, res){
   data= req.query.code ;
   console.log('Got the source as \n:' + data);
   code_allocation2();
-  //setTimeout(output(req, res), 10000);
+  res.render(__dirname +"/output.ejs", { uff: new_file});
+  //res.sendFile(__dirname + "/"+name); // bombarding files to teh user from the Server
+
   res.end();
 });
-app.get('/result', output);
 
+app.get('/result', output);
+/* below functions is useless, just kept like that*/
 function output(req, res){
-  var rr = " this is working as direct copy paste";
+
   res.render(__dirname + '/output.ejs', {
-    uff: new_file,
-    mm: rr
+    uff: new_file
   });
   new_file="";
   console.log('Runing Ejs file on browser parsing from Server');
@@ -184,7 +187,20 @@ function open_file(){
       }
     }
   }
+  createEncryptedFile();
   //console.log('The Encrypted Code is below :\n\n' + new_file);
   //new_file="";
+
+}
+function createEncryptedFile(){
+  var ran = String(Math.floor(Math.random() * 100));
+  name= ran +"Encrypted_file_source.txt";
+  fs.open(name, 'w', function(err){
+    if(err) console.log('Error occured while making he excrypted file source');
+
+  });
+  fs.appendFile(name, new_file, function(err){
+    if(err) console.log('Error occured hile appending the FIle created for the source');
+  });
 
 }
