@@ -10,8 +10,8 @@ This is a web based application for Encryption_Engine, whose original code was w
  then. manually, create a database named <strong>Encryption_Engine</strong> 
 There after, open the source code of strong>app.js</strong> and edit the followings  according to the settings to <br/>resective computer:<br/>
     host: "localhost", // keep it as the IP if you are using it over a network. <br/>
-    user: <your-mysql-username / if no username is set then, keep it as "root">,<br/>
-    password: <your-mysql-password>,<br/>
+    user: (your-mysql-username / if no username is set then, keep it as "root"),<br/>
+    password: (your-mysql-password),<br/>
     database: "Encryption_Engine"<br/>
     
 to know the IP of the network you are conected, if using linux or mac
