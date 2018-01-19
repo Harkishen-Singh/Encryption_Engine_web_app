@@ -8,14 +8,14 @@ This is a web based application for Encryption_Engine, whose original code was w
  Then, After installing run using the command
  <code> mysql -u root -p </code>
  then. manually, create a database named <strong>Encryption_Engine</strong> 
-There after, open the source code of strong>app.js</strong> and edit the followings  according to the settings to <br/>resective computer:
-    host: "localhost", // keep it as the IP if you are using it over a network.
-    user: <your-mysql-username / if no username is set then, keep it as "root">,
-    password: <your-mysql-password>,
-    database: "Encryption_Engine"
+There after, open the source code of strong>app.js</strong> and edit the followings  according to the settings to <br/>resective computer:<br/>
+    host: "localhost", // keep it as the IP if you are using it over a network. <br/>
+    user: <your-mysql-username / if no username is set then, keep it as "root">,<br/>
+    password: <your-mysql-password>,<br/>
+    database: "Encryption_Engine"<br/>
     
 to know the IP of the network you are conected, if using linux or mac
-type <code>ifconfig</code>
-if windows <code>ipconfig</code>
+type <br/> <code>ifconfig</code>
+<br/> if windows <br/> <code>ipconfig</code> <br/> <br/>
 
 <h4>feel free to share any other problems related to installation or any other thing.</h4>
