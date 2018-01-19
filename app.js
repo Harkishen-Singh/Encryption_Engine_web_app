@@ -1,6 +1,6 @@
 var express = require('express');
 var html = require('html');
-var sql = require('sql');
+var mysql = require('mysql');
 var fs = require('fs');
 var app= express();
 
@@ -22,54 +22,22 @@ var server = app.listen(8000, '0.0.0.0', function(err){
     console.log('Server listening at address : '+ server.address().address);
   }
 });
-
-
-
-/*var db = sql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "hsinghbb"
-});*/
-/*
-db.connect(function(err){
-  if(err)
-    {console.log('Some error occured'); break;}
-  else {
-        var cmd = " create database Encryption_engine";
-        db.query(cmd, function(err){
-          if(err) throw err;
-          else {
-            console.log("Database named Encryption_engine successfully created");
-          }
-        });
-
-    }
-});
-
-
-// creating table for Encryption_engine
-db.connect(function(err){
-  if(err) {console.log('Some error occured'); break;}
-  else {
-    var cmd= "create table Used_people_record (
-      Person Id int,
-      Name varchar(50),
-      Email Id varchar(100),)
-    )";
-
-  }
-});
-*/
-app.get('/values', function(req, res){
-  res.sendFile(__dirname + "/input_val.html");
-
-});
 var data="";
 var name="";
 var new_file = ""; // contains the encrypted code
+var user_name="";
+var user_emailId="";
+
+
+
+
 
 app.get('/receive_form', function(req, res){
+  /* getting data from forms */
   data= req.query.code ;
+  user_name= req.query.user_name;
+  user_emailId = req.query.emailId;
+  console.log(user_name +"\t"+user_emailId);
   console.log('Got the source as \n:' + data);
   code_allocation2();
   res.render(__dirname +"/output.ejs", { uff: new_file});
@@ -78,9 +46,42 @@ app.get('/receive_form', function(req, res){
   var sending = fs.createReadStream(__dirname +"/" + name);
   sending.pipe(res);
   //res.sendFile(__dirname + "/"+name); // bombarding files to teh user from the Server
-
+  Database_handling();
   res.end();
 });
+function Database_handling(){
+  var db = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "hsinghbb",
+    database: "Encryption_Engine"
+  });
+
+  db.connect(function(err){
+    if(err)
+      {console.log('Some error occured');}
+    else {
+      console.log(user_name +"\t"+user_emailId);
+          var cmd = " insert into Records(name, emailId) values(\""+user_name+"\",\""+user_emailId+"\");";
+          db.query(cmd, function(err){
+            if(err){throw err;console.log('Error occured while Inserting into the Database');}
+            else {
+              console.log("Insertion into the database sccessfully done!");
+            }
+          });
+
+      }
+  });
+}
+
+/* passing the input form to the user below */
+app.get('/values', function(req, res){
+  res.sendFile(__dirname + "/input_val.html");
+
+});
+
+
+
 
 app.get('/result', output);
 /* below functions is useless, just kept like that*/
