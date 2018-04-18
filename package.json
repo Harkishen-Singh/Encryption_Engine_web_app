@@ -1,0 +1,19 @@
+{
+  "name": "harkishen",
+  "version": "1.0.0",
+  "description": "ecrypts documents",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Harkishen-Singh/Encryption_Engine_web_app.git"
+  },
+  "author": "Harkishen Singh",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Harkishen-Singh/Encryption_Engine_web_app/issues"
+  },
+  "homepage": "https://github.com/Harkishen-Singh/Encryption_Engine_web_app#readme"
+}
